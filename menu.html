@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SEA Catering</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="menu.html" class="active">Menu</a></li>
+            <li><a href="subscription.html">Subscription</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+        </ul>
+    </nav>
+
+    <section class="menu">
+        <h2>Paket Makanan Kami</h2>
+        <div class="meal-card">
+            <h3>Paket Diet</h3>
+            <p>Paket ini cocok banget buat kamu yang lagi usaha nurunin berat badan tapi tetap mau makan enak dan sehat. Kalorinya udah diatur, rendah lemak, tinggi serat, jadi gak perlu ribet hitung-hitung sendiri.</p>
+            <p>Rp 25,000/pax</p>
+            <button onclick="showModal('Paket Diet')">Lihat Detail</button>
+        </div>
+
+        <div class="meal-card">
+            <h3>Paket Protein</h3>
+            <p>Buat kamu yang aktif, suka olahraga, atau lagi fokus naikin massa otot, ini paket yang pas! Isinya tinggi protein dan bantu tubuh kamu recovery setelah aktivitas berat.</p>
+            <p>Rp 40,000/pax</p>
+            <button onclick="showModal('Paket Protein')">Lihat Detail</button>
+        </div>
+
+        <div class="meal-card">
+            <h3>Paket Upgrade (Lengkap)</h3>
+            <p>Kalau kamu pengen yang lengkap, mewah, dan gak mau pusing pilih-pilih menu tiap hari, Paket Upgrade jawabannya. Semua udah kami siapin, tinggal makan dan nikmatin aja.</p>
+            <p>Rp 50,000/pax</p>
+            <button onclick="showModal('Paket Upgrade (Lengkap)')">Lihat Detail</button>
+        </div>
+    </section>
+
+        <div id="meal-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-button" onclick="closeModal()">&times;</span>
+                <h3 id="modal-title"></h3>
+                <p id="modal-description">Detail paket akan muncul di sini.</p>
+            </div>
+        </div>
+        
+        <script src="script.js"></script>
+</body>
+</html>
