@@ -20,15 +20,15 @@
 
         <section class="testimonials">
             <h2>Berikan Testimoni Kamu</h2>
-            <form>
-                <input type="text" placeholder="Nama" required><br>
-                <textarea placeholder="Pesan" required></textarea><br>
-                <select>
-                    <option>&#9733;</option>
-                    <option>&#9733;&#9733;</option>
-                    <option>&#9733;&#9733;&#9733;</option>
-                    <option>&#9733;&#9733;&#9733;&#9733;</option>
-                    <option>&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+            <form id="testimonial-form">
+                <input type="text" id="t-name" placeholder="Nama" required><br>
+                <textarea id="t-message" placeholder="Pesan" required></textarea><br>
+                <select id="t-rating" required>
+                    <option value="1">&#9733;</option>
+                    <option value="2">&#9733;&#9733;</option>
+                    <option value="3">&#9733;&#9733;&#9733;</option>
+                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
                 </select><br>
                 <button type="submit">Kirim</button>
             </form><br>
@@ -36,9 +36,6 @@
             <h3>Testimoni Pelanggan</h3>
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper">
-                <div class="swiper-slide">"Pelayanannya sangat oke, dan juga responsif. Pengirimannya juga cepat. Bakal jadi langganan!" - Rina &#9733;&#9733;&#9733;&#9733;&#9733;</div>
-                <div class="swiper-slide">"Pilihan makanan banyak dan bisa diatur sesuai kemauan dan kebutuhan kita. Rasanya juga oke banget!" - Speed &#9733;&#9733;&#9733;&#9733;</div>
-                <div class="swiper-slide">"Gak nyangka menu diet bisa seenak ini!" - Bella &#9733;&#9733;&#9733;&#9733;&#9733;</div>
                 </div>      
                 <div class="swiper-pagination"></div>  
             </div>
@@ -57,5 +54,6 @@
             },
         });
         </script>
+    <script src="script.js"></script>
 </body>
 </html>
