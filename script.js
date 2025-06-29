@@ -1,6 +1,6 @@
 console.log("Homepage SEA Catering loaded!")
 
-function showModal(planName) {
+function showModal(planName){
   const modal = document.getElementById("meal-modal");
   const title = document.getElementById("modal-title");
   const desc = document.getElementById("modal-description");
@@ -9,7 +9,7 @@ function showModal(planName) {
 
   let content = "";
 
-  if (planName === "Paket Diet") {
+  if(planName === "Paket Diet"){
     content = `
       Ini adalah detail makanan untuk Paket Diet. Kamu bisa menyesuaikan makanan sesuai kebutuhan nutrisimu.
       <ul>
@@ -20,7 +20,7 @@ function showModal(planName) {
         <li>Apel, semangka, atau pepaya</li>
       </ul>
     `;
-  } else if (planName === "Paket Protein") {
+  }else if(planName === "Paket Protein"){
     content = `
       Ini adalah detail makanan untuk Paket Protein. Kamu bisa menyesuaikan makanan sesuai kebutuhan nutrisimu.
       <ul>
@@ -30,7 +30,7 @@ function showModal(planName) {
         <li>Minuman pendamping: susu almond atau jus sehat</li>
       </ul>
     `;
-  } else if (planName === "Paket Upgrade (Lengkap)") {
+  }else if(planName === "Paket Royal"){
     content = `
       Ini adalah detail makanan untuk Paket Royal. Kamu bisa menyesuaikan makanan sesuai kebutuhan nutrisimu.
       <ul>
@@ -42,7 +42,7 @@ function showModal(planName) {
         <li>Minuman: infused water jeruk nipis atau teh hijau</li>
       </ul>
     `;
-  } else {
+  }else{
     content = "Detail paket tidak ditemukan.";
   }
 
@@ -64,7 +64,7 @@ function hitungTotal(){
   const mealTypes = document.querySelectorAll('input[name="mealType"]:checked');
   const deliveryDays = document.querySelectorAll('input[name="day"]:checked');
 
-  if (!name || !phone || !plan){
+  if(!name || !phone || !plan){
     resultDiv.innerHTML = "<p style='color:red;'>Nama, nomor HP, dan paket wajib diisi.</p>";
     resultDiv.classList.add("show");
     return;
@@ -111,5 +111,100 @@ resultDiv.innerHTML = `
 }
 
 function kirimPesanan(){
-  alert("Pesanan berhasil dikirim! Tim kami akan menghubungimu melalui WhatsApp.");
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const plan = document.getElementById("plan").value;
+  const allergies = document.getElementById("allergies").value.trim();
+  const mealTypes = [...document.querySelectorAll('input[name="mealType"]:checked')].map(m => m.value);
+  const deliveryDays = [...document.querySelectorAll('input[name="day"]:checked')].map(d => d.value);
+
+  const hargaPerMeal = plan === "diet" ? 30000 : plan === "protein" ? 40000 : 60000;
+  const totalMeals = mealTypes.length * deliveryDays.length * 4.3;
+  const totalPrice = Math.round(hargaPerMeal * totalMeals);
+
+  fetch("http://localhost:3000/submit",{
+    method: "POST",
+    headers: { "Content-Type": "application/json"},
+    body: JSON.stringify({
+      name,
+      phone,
+      plan,
+      meals: mealTypes,
+      days: deliveryDays,
+      allergies,
+      totalPrice
+    })
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.success){
+        alert("Pesanan berhasil dikirim.");
+      }else{
+        alert("Gagal membuat pesanan.");
+      }
+    });
 }
+
+document.addEventListener("DOMContentLoaded", function (){
+  const testimonialForm = document.getElementById("testimonial-form");
+  if(testimonialForm){
+    testimonialForm.addEventListener("submit", function (e){
+      e.preventDefault();
+
+      const name = document.getElementById("t-name").value.trim();
+      const message = document.getElementById("t-message").value.trim();
+      const rating = parseInt(document.getElementById("t-rating").value);
+
+      if(!name || !message || isNaN(rating)){
+        alert("Semua kolom wajib diisi.");
+        return;
+      }
+
+      fetch("http://localhost:3000/testimonials",{
+        method: "POST",
+        headers: { "Content-Type": "application/json"},
+        body: JSON.stringify({ name, message, rating })
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if(data.success){
+            alert("Testimoni berhasil dikirim!");
+            location.reload();
+          }else{
+            alert("Gagal mengirim testimoni.");
+          }
+        });
+    });
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("http://localhost:3000/testimonials")
+    .then((res) => res.json())
+    .then((data) => {
+      const wrapper = document.querySelector(".swiper-wrapper");
+
+      wrapper.innerHTML = "";
+
+      data.forEach((item) => {
+        const slide = document.createElement("div");
+        slide.classList.add("swiper-slide");
+
+        slide.innerHTML = `"${item.message}" - ${item.name} ${"⭐".repeat(item.rating)}`;
+        wrapper.appendChild(slide);
+      });
+
+      new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
+    });
+});
+
