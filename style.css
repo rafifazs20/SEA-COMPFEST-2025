@@ -178,6 +178,7 @@ textarea{
   box-sizing: border-box;
   font-family: inherit;
   font-size: 15px;
+  color: rgb(51,51,51);
 }
 
 .testimonials button{
@@ -286,7 +287,7 @@ textarea{
 
 .meal-options label,
 .day-options label{
-  background-color: #fffbe7;
+  background-color: rgb(255, 249, 222);
   border: 2px solid rgb(240, 187, 120);
   border-radius: 5px;
   padding: 8px 14px;
