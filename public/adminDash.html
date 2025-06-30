@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - SEA Catering</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#" class="active">Admin Dashboard</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <h2>Statistik Langganan</h2>
+    <label for="daterange">Pilih rentang tanggal:</label>
+    <input type="date" id="start"> - <input type="date" id="end">
+    <button onclick="loadStats()">Tampilkan</button>
+    <div id="stats"></div>
+  </section>
+
+  <script>
+    async function loadStats() {
+      const start = document.getElementById("start").value;
+      const end = document.getElementById("end").value;
+      if (!start || !end) return alert("Isi tanggal dengan lengkap.");
+
+      const res = await fetch(`http://localhost:3000/admin/stats?start=${start}&end=${end}`);
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById("stats").innerHTML = `
+          <ul>
+            <li><strong>New Subscriptions:</strong> ${data.newSubscriptions}</li>
+            <li><strong>Monthly Recurring Revenue (MRR):</strong> Rp ${data.mrr.toLocaleString()}</li>
+            <li><strong>Reactivations:</strong> ${data.reactivations}</li>
+            <li><strong>Subscription Growth:</strong> ${data.totalActive}</li>
+          </ul>
+        `;
+      } else {
+        document.getElementById("stats").innerText = "Gagal mengambil data.";
+      }
+    }
+
+    function logout() {
+      fetch("http://localhost:3000/logout", { method: "POST" }).then(() =>
+        window.location.href = "login.html"
+      );
+    }
+  </script>
+</body>
+</html>

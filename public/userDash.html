@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Dashboard - SEA Catering</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#" class="active">Dashboard</a></li>
+      <li><a href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <h2>Langganan Aktif</h2>
+    <div id="subscription-details">Loading...</div>
+  </section>
+
+  <section>
+    <h3>Pause Subscription</h3>
+    <label>Mulai: <input type="date" id="pauseStart" /></label>
+    <label>Selesai: <input type="date" id="pauseEnd" /></label>
+    <button onclick="pauseSubscription()">Pause</button>
+  </section>
+
+  <section>
+    <h3>Cancel Subscription</h3>
+    <button onclick="cancelSubscription()">Cancel Langganan</button>
+  </section>
+
+  <script>
+    async function fetchData() {
+      const res = await fetch("http://localhost:3000/mysubscription");
+      const data = await res.json();
+      if (data.success && data.subscription) {
+        const s = data.subscription;
+        document.getElementById("subscription-details").innerHTML = `
+          <ul>
+            <li><strong>Paket:</strong> ${s.plan}</li>
+            <li><strong>Meal:</strong> ${s.meals}</li>
+            <li><strong>Hari Kirim:</strong> ${s.days}</li>
+            <li><strong>Total:</strong> Rp ${s.totalPrice}</li>
+            <li><strong>Status:</strong> ${s.status || "Aktif"}</li>
+          </ul>
+        `;
+      } else {
+        document.getElementById("subscription-details").innerText = "Tidak ada langganan aktif.";
+      }
+    }
+
+    async function pauseSubscription() {
+      const start = document.getElementById("pauseStart").value;
+      const end = document.getElementById("pauseEnd").value;
+      if (!start || !end) return alert("Isi tanggal dengan lengkap");
+
+      const res = await fetch("http://localhost:3000/pause", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ start, end }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Subscription berhasil di-pause!");
+        fetchData();
+      } else {
+        alert("Gagal pause.");
+      }
+    }
+
+    async function cancelSubscription() {
+      if (!confirm("Yakin ingin membatalkan langganan?")) return;
+
+      const res = await fetch("http://localhost:3000/cancel", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Langganan dibatalkan.");
+        fetchData();
+      } else {
+        alert("Gagal membatalkan langganan.");
+      }
+    }
+
+    function logout() {
+      fetch("http://localhost:3000/logout", { method: "POST" }).then(() =>
+        window.location.href = "login.html"
+      );
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
