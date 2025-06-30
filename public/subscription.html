@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='id'>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Subscription - SEA Catering</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="subscription.html" class="active">Subscription</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="regist.html">Register</a></li>
+            </ul>
+        </nav>
+
+    <section class="subscription">
+        <h2>Form Pemesanan</h2>
+        <form id="subscription-form">
+            <input type="text" id="name" placeholder="Nama Anda" required><br>
+            <input type="tel" id="phone" placeholder="Nomoh HP Aktif" required><br>
+
+            <label for="plan">Pilih Paket:</label>
+            <select id="plan" required>
+                <option value="">--Pilih Paket--</option>
+                <option value="diet">Paket Diet - Rp30,000</option>
+                <option value="protein">Paket Protein - Rp40,000</option>
+                <option value="royal">Paket Royal - Rp60,000</option>
+            </select><br>
+
+            <p>Pilih Jenis Meal (minimal 1):</p>
+            <div class="meal-option">
+                <label><input type="checkbox" name="mealType" value="breakfast"> Sarapan</label>
+                <label><input type="checkbox" name="mealType" value="lunch"> Makan Siang</label>
+                <label><input type="checkbox" name="mealType" value="dinner"> Makan Malam</label>
+            </div>    
+            <p>Pilih Hari Pengiriman (minimal 1):</p>
+            <div class="day-option">
+                <label><input type="checkbox" name="day" value="senin"> Senin</label>
+                <label><input type="checkbox" name="day" value="selasa"> Selasa</label>
+                <label><input type="checkbox" name="day" value="rabu"> Rabu</label>
+                <label><input type="checkbox" name="day" value="kamis"> Kamis</label>
+                <label><input type="checkbox" name="day" value="jumat"> Jumat</label>
+                <label><input type="checkbox" name="day" value="sabtu"> Sabtu</label>
+                <label><input type="checkbox" name="day" value="minggu"> Minggu</label>
+            </div>
+            <textarea id="allergies" placeholder="alergi atau pantangan makanan apapun (optional)"></textarea><br>
+            <button type="button" onclick="hitungTotal()">Hitung Total</button>
+        </form>
+        <div id="result"></div>
+        <script src="script.js"></script>
+    </section>
+</body>
+</html>
