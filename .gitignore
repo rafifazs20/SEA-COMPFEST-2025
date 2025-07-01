@@ -1,10 +1,3 @@
-#abaikan database di root folder
-/database.db
-
-#abaikan semua database di subfolder mana pun (cadangan ganda)
-/database.db
-**/database.db
-
 #abaikan file environment dan config sensitif (kalau ada)
 .env
 .env.local
