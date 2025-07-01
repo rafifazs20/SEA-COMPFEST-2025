@@ -21,8 +21,13 @@ app.listen(port, () => {
 
 app.use(express.static(path.join(__dirname, "public")));
 
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://sea-compfest-2025-production.up.railway.app"
+];
+
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: allowedOrigins,
   credentials: true
 }));
 
@@ -32,7 +37,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
   secret: "sea-catering-secret",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: true, 
+    maxAge: 24 * 60 * 60 * 1000
+  }
 }));
 
 const authRoutes = require("./auth");

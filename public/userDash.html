@@ -35,74 +35,81 @@
   </section>
 
   <script>
-    async function fetchData(){
-      const res = await fetch("http://localhost:3000/mysubscription", {
-        credentials: "include"
-      });
+  const BASE_URL = window.location.origin;
 
-      const data = await res.json();
-      const container = document.getElementById("subscription-details");
+  async function fetchData(){
+    const res = await fetch(`${BASE_URL}/mysubscription`, {
+      credentials: "include"
+    });
 
-      if(data.success && data.subscription){
-        const s = data.subscription;
-        container.classList.remove("loading");
-        container.innerHTML = `
-          <div class="card">
-            <p><strong>Paket:</strong> ${s.plan}</p>
-            <p><strong>Meal:</strong> ${s.meals}</p>
-            <p><strong>Hari Kirim:</strong> ${s.days}</p>
-            <p><strong>Total:</strong> Rp ${s.totalPrice.toLocaleString()}</p>
-            <p><strong>Status:</strong> ${s.status || "Aktif"}</p>
-          </div>
-        `;
-      }else{
-        container.innerHTML = `<p style="color: red;">Tidak ada langganan aktif.</p>`;
-      }
+    const data = await res.json();
+    const container = document.getElementById("subscription-details");
+
+    if(data.success && data.subscription){
+      const s = data.subscription;
+      container.classList.remove("loading");
+      container.innerHTML = `
+        <div class="card">
+          <p><strong>Paket:</strong> ${s.plan}</p>
+          <p><strong>Meal:</strong> ${s.meals}</p>
+          <p><strong>Hari Kirim:</strong> ${s.days}</p>
+          <p><strong>Total:</strong> Rp ${s.totalPrice.toLocaleString()}</p>
+          <p><strong>Status:</strong> ${s.status || "Aktif"}</p>
+        </div>
+      `;
+    } else {
+      container.innerHTML = `<p style="color: red;">Tidak ada langganan aktif.</p>`;
     }
+  }
 
-    async function pauseSubscription(){
-      const start = document.getElementById("pauseStart").value;
-      const end = document.getElementById("pauseEnd").value;
-      if(!start || !end) return alert("Isi tanggal dengan lengkap");
+  async function pauseSubscription(){
+    const start = document.getElementById("pauseStart").value;
+    const end = document.getElementById("pauseEnd").value;
+    if(!start || !end) return alert("Isi tanggal dengan lengkap");
 
-      const res = await fetch("http://localhost:3000/pause",{
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({start, end}),
-      });
+    const res = await fetch(`${BASE_URL}/pause`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({start, end}),
+    });
 
-      const data = await res.json();
-      if(data.success){
-        alert("Subscription berhasil di-pause!");
-        fetchData();
-      }else{
-        alert("Gagal pause.");
-      }
+    const data = await res.json();
+    if(data.success){
+      alert("Subscription berhasil di-pause!");
+      fetchData();
+    }else{
+      alert("Gagal pause.");
     }
+  }
 
-    async function cancelSubscription(){
-      if(!confirm("Yakin ingin membatalkan langganan?")) return;
+  async function cancelSubscription(){
+    if(!confirm("Yakin ingin membatalkan langganan?")) return;
 
-      const res = await fetch("http://localhost:3000/cancel",{
-        method: "POST",
-      });
+    const res = await fetch(`${BASE_URL}/cancel`, {
+      method: "POST",
+      credentials: "include"
+    });
 
-      const data = await res.json();
-      if(data.success){
-        alert("Langganan dibatalkan.");
-        fetchData();
-      }else{
-        alert("Gagal membatalkan langganan.");
-      }
+    const data = await res.json();
+    if(data.success){
+      alert("Langganan dibatalkan.");
+      fetchData();
+    }else{
+      alert("Gagal membatalkan langganan.");
     }
+  }
 
-    function logout(){
-      fetch("http://localhost:3000/logout", {method: "POST"}).then(() =>
-        window.location.href = "login.html"
-      );
-    }
+  function logout(){
+    fetch(`${BASE_URL}/logout`, {
+      method: "POST",
+      credentials: "include"
+    }).then(() => {
+      window.location.href = "login.html";
+    });
+  }
 
-    fetchData();
-  </script>
+  fetchData();
+</script>
 </body>
 </html>

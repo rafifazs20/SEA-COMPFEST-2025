@@ -26,37 +26,42 @@
   </section>
 
   <script>
-    async function loadStats(){
-      const start = document.getElementById("start").value;
-      const end = document.getElementById("end").value;
-      if(!start || !end) return alert("Isi tanggal dengan lengkap.");
+  const BASE_URL = window.location.origin;
 
-      const res = await fetch(`http://localhost:3000/admin/stats?start=${start}&end=${end}`, {
-        credentials: "include"
-      });
+  async function loadStats(){
+    const start = document.getElementById("start").value;
+    const end = document.getElementById("end").value;
+    if(!start || !end) return alert("Isi tanggal dengan lengkap.");
 
-      const data = await res.json();
+    const res = await fetch(`${BASE_URL}/admin/stats?start=${start}&end=${end}`, {
+      credentials: "include"
+    });
 
-      const container = document.getElementById("stats");
-      if(data.success){
-        container.innerHTML = `
-          <ul>
-            <li><strong>Langganan Baru:</strong> ${data.newSubscription}</li>
-            <li><strong>MRR:</strong> Rp ${data.mrr.toLocaleString()}</li>
-            <li><strong>Reaktivasi:</strong> ${data.reactivations}</li>
-            <li><strong>Total Aktif:</strong> ${data.totalActive}</li>
-          </ul>
-        `;
-      }else{
-        container.innerHTML = `<p style="color: red;">Gagal mengambil data.</p>`;
-      }
+    const data = await res.json();
+    const container = document.getElementById("stats");
+
+    if(data.success){
+      container.innerHTML = `
+        <ul>
+          <li><strong>Langganan Baru:</strong> ${data.newSubscription}</li>
+          <li><strong>MRR:</strong> Rp ${data.mrr.toLocaleString()}</li>
+          <li><strong>Reaktivasi:</strong> ${data.reactivations}</li>
+          <li><strong>Total Aktif:</strong> ${data.totalActive}</li>
+        </ul>
+      `;
+    } else {
+      container.innerHTML = `<p style="color: red;">Gagal mengambil data.</p>`;
     }
+  }
 
-    function logout(){
-      fetch("http://localhost:3000/logout", {method: "POST"}).then(() =>
-        window.location.href = "login.html"
-      );
-    }
-  </script>
+  function logout(){
+    fetch(`${BASE_URL}/logout`, {
+      method: "POST",
+      credentials: "include"
+    }).then(() => {
+      window.location.href = "login.html";
+    });
+  }
+</script>
 </body>
 </html>

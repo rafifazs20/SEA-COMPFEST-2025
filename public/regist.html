@@ -31,27 +31,32 @@
     <p>Sudah punya akun? <a href="login.html">Login</a></p>
   </section>
   <script>
-    document.getElementById("register-form").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
-      const phone = document.getElementById("phone").value.trim();
+  const BASE_URL = window.location.origin;
 
-      const res = await fetch("http://localhost:3000/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, phone })
-      });
+  document.getElementById("register-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-      const data = await res.json();
-      if (data.success) {
-        alert("Registrasi berhasil!");
-        window.location.href = "login.html";
-      } else {
-        alert(data.message || "Registrasi gagal");
-      }
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const password = document.getElementById("password").value;
+
+    const res = await fetch(`${BASE_URL}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // agar session tersimpan
+      body: JSON.stringify({ name, email, phone, password })
     });
-  </script>
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Registrasi berhasil!");
+      window.location.href = "login.html";
+    } else {
+      alert(data.message || "Registrasi gagal");
+    }
+  });
+</script>
 </body>
 </html>
