@@ -1,39 +1,41 @@
 # SEA Catering - Fullstack Web App
 
-SEA Catering adalah sebuah proyek aplikasi web yang dikembangkan sebagai bagian dari program pelatihan Software Engineer Academy. Aplikasi ini menyediakan layanan langganan katering sehat (Healthy Meal Plan Subscription) bagi pengguna, lengkap dengan fitur testimoni, otentikasi pengguna, dashboard pengguna dan admin, serta perlindungan keamanan modern.
+SEA Catering adalah aplikasi web langganan katering sehat yang dibangun sebagai proyek latihan fullstack development. Aplikasi ini memungkinkan pengguna untuk memilih meal plan, mendaftar/melakukan login, memberikan testimoni, dan mengelola langganan. Admin juga dapat melihat statistik langganan melalui dashboard.
+
+---
+
+## 🌐 Link Deploy (Live Demo)
+
+- **Frontend (Vercel)**: [https://sea-catering.vercel.app](https://sea-catering.vercel.app)
+- **Backend (Render)**: [https://sea-catering-api.onrender.com](https://sea-catering-api.onrender.com)
 
 ---
 
 ## 🏗️ Fitur Utama
 
-### 1. Halaman Publik
-- **Homepage (`index.html`)**: Berisi pengantar SEA Catering, slogan, dan ajakan untuk berlangganan.
-- **Menu (`menu.html`)**: Menampilkan 3 jenis paket katering: Diet, Protein, dan Royal lengkap dengan gambar dan deskripsi.
-- **Subscription (`subscription.html`)**: Form untuk pengguna melakukan pemesanan meal plan.
-- **Testimonials (`testimonials.html`)**: Form testimoni + carousel review pelanggan.
-- **Contact (`contact.html`)**: Info kontak dan alamat perusahaan.
+### Halaman Publik
+- **Homepage**: Info pengantar dan ajakan langganan
+- **Menu**: 3 paket meal plan (Diet, Protein, Royal)
+- **Subscription**: Form pemesanan katering
+- **Testimonials**: Carousel ulasan pelanggan & form testimoni
+- **Contact**: Info kontak dan lokasi
 
-### 2. Autentikasi & Otorisasi
-- **Register & Login (`regist.html`, `login.html`)**:
-  - Validasi password kompleks
-  - Penyimpanan password dengan hashing (bcrypt)
-  - Sistem session-based login
+### Autentikasi & Otorisasi
+- **Register/Login** dengan validasi password dan hashing
 - **Role-based access**:
-  - Hanya user yang login yang dapat melakukan atau melihat langganan.
-  - Admin memiliki akses ke dashboard statistik langganan.
+  - User biasa: akses langganan dan dashboard user
+  - Admin: akses dashboard statistik langganan
 
-### 3. User Dashboard (`userDash.html`)
-- Melihat langganan aktif
-- Pause subscription (pilih tanggal mulai & akhir)
-- Cancel subscription dengan konfirmasi
+### Dashboard User
+- Melihat status langganan
+- Pause / Cancel subscription
 
-### 4. Admin Dashboard (`adminDash.html`)
-- Menampilkan statistik:
-  - Jumlah langganan baru
-  - MRR (Monthly Recurring Revenue)
-  - Reactivations
-  - Total langganan aktif
-- Bisa disaring berdasarkan rentang tanggal
+### Dashboard Admin
+- Filter statistik berdasarkan tanggal:
+  - Langganan Baru
+  - Monthly Recurring Revenue (MRR)
+  - Reaktivasi
+  - Total Langganan Aktif
 
 ---
 
@@ -41,71 +43,32 @@ SEA Catering adalah sebuah proyek aplikasi web yang dikembangkan sebagai bagian 
 
 | Fitur                         | Status |
 |------------------------------|--------|
-| Register/login aman          | ✅     |
-| Hashed password (bcrypt)     | ✅     |
-| Autentikasi pakai session    | ✅     |
-| Authorization role-based     | ✅     |
-| Validasi & sanitasi input    | ✅     |
+| Validasi register/login      | ✅     |
+| Password hashing (bcrypt)    | ✅     |
+| Session-based authentication | ✅     |
+| Role-based authorization     | ✅     |
+| Input validation & sanitasi  | ✅     |
 | SQL Injection prevention     | ✅     |
-| XSS protection               | ✅     |
-| CSRF protection (via session validation) | ✅     |
+| Basic XSS protection         | ✅     |
 
 ---
 
 ## 🧠 Teknologi yang Digunakan
 
 ### Frontend
-- HTML5 + CSS3
-- JavaScript (vanilla)
-- Swiper.js (untuk carousel testimoni)
+- HTML5, CSS3, JavaScript (Vanilla)
+- Swiper.js (carousel testimoni)
+- Deploy: **Vercel**
 
 ### Backend
 - Node.js + Express.js
-- SQLite3 (database ringan & embedded)
+- SQLite3
 - express-session
-- bcrypt (hashing password)
-- express-validator (validasi & sanitasi input)
-- CORS & Body-parser
+- bcrypt
+- express-validator
+- CORS, Body-parser
+- Deploy: **Render**
 
 ---
 
-## 🗃️ Struktur Folder
-sea-catering/
-├── public/
-│ ├── index.html
-│ ├── login.html
-│ ├── regist.html
-│ ├── userDash.html
-│ ├── adminDash.html
-│ ├── subscription.html
-│ ├── menu.html
-│ ├── testimonials.html
-│ ├── contact.html
-│ ├── style.css
-│ ├── script.js
-│ └── assets/ # (gambar menu, logo, dll)
-├── server/
-│ ├── server.js
-│ ├── auth.js
-│ ├── db.js
-│ └── middleware/
-│ └── auth.js
-├── db/
-│ ├── database.db
-│ └── schema.sql
-├── package.json
-└── README.md
-
-
----
-
-## 🧪 Cara Menjalankan Proyek
-
-### 1. Clone repository
-```bash
-git clone https://github.com/username/sea-catering.git
-cd sea-catering
-npm install
-node server/server.js
-Buka browser dan buka:
-http://localhost:3000/index.html
+## 📁 Struktur Folder
