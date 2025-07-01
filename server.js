@@ -34,7 +34,7 @@ app.use(session({
 const authRoutes = require("./auth");
 app.use(authRoutes);
 
-const db = new sqlite3.Database("./db/database.db", (err) =>{
+const db = new sqlite3.Database("db/database.db", (err) =>{
   if(err) console.error(err.message);
   else console.log("Terhubung ke database SQLite");
 });
