@@ -2,8 +2,8 @@ const sqlite3 = require("sqlite3").verbose();
 const fs = require("fs");
 const path = require("path");
 
-const dbPath = path.resolve(__dirname, "../db/database.db");
-const schemaPath = path.resolve(__dirname, "../db/schema.sql");
+const dbPath = path.resolve(__dirname, "db/database.db");
+const schemaPath = path.resolve(__dirname, "db/schema.sql");
 
 const db = new sqlite3.Database(dbPath, (err) =>{
   if (err) return console.error("DB Error:", err.message);
