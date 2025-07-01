@@ -11,6 +11,7 @@
 
 #abaikan node_modules
 node_modules/
+server/node_modules
 
 #abaikan log dan cache
 *.log
