@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const {body, validationResult} = require("express-validator");
-const { ensureAuthenticated, ensureAdmin } = require("middleware/auth");
+const { ensureAuthenticated, ensureAdmin } = require("./middleware/auth");
 const path = require("path");
 
 const app = express();
