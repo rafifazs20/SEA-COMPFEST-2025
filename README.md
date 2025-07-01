@@ -58,7 +58,7 @@ SEA Catering adalah aplikasi web langganan katering sehat yang dibangun sebagai 
 ### Frontend
 - HTML5, CSS3, JavaScript (Vanilla)
 - Swiper.js (carousel testimoni)
-- Deploy: **Vercel**
+- Deploy: Railway
 
 ### Backend
 - Node.js + Express.js
@@ -67,8 +67,21 @@ SEA Catering adalah aplikasi web langganan katering sehat yang dibangun sebagai 
 - bcrypt
 - express-validator
 - CORS, Body-parser
-- Deploy: **Render**
+- Deploy: Railway
 
 ---
 
-## 📁 Struktur Folder
+
+## 🚀 Cara Menjalankan 
+
+## 🛠️ Deployment
+
+### Railway (Direkomendasikan)
+1. Yuk, login atau buat akun di [railway.app](https://railway.app).
+2. Klik **New Project → Deploy from GitHub**, pilih repo `SEA-COMPFEST-2025`.
+3. Tambahkan env vars:
+   - `SESSION_SECRET`: string rahasia untuk session.
+4. Railway auto build & deploy Express app kamu.
+5. Dapat URL publik — langsung buka dan coba!
+
+> 🎯 Note: pastikan `database.db` SQLite berada di folder yang tidak di-clean saat deploy agar data tetap persisten.
