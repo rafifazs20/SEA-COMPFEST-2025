@@ -45,13 +45,12 @@
 
     const data = await res.json();
 
+    alert("Login berhasil!");
     if (data.success) {
-      alert("Login berhasil!");
       const profile = await fetch(`${BASE_URL}/me`, {
         method: "GET",
         credentials: "include"
       }).then(res => res.json());
-
       if (profile.loggedIn && profile.user.isAdmin) {
         window.location.href = "adminDash.html";
       } else {

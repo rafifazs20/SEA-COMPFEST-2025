@@ -28,9 +28,10 @@ router.post("/register",
   try{
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const isAdmin = email === "admin@seacatering.com" ? 1 : 0;
     db.run(
-      `INSERT INTO users (name, email, password) VALUES (?, ?, ?)`,
-      [name, email, hashedPassword],
+      `INSERT INTO users (name, email, password, isAdmin) VALUES (?, ?, ?, ?)`,
+      [name, email, hashedPassword, isAdmin],
       function(err){
         if(err){
           if(err.message.includes("UNIQUE")){
@@ -43,7 +44,7 @@ router.post("/register",
           `UPDATE subscription 
            SET userId = ? 
            WHERE userId IS NULL AND LOWER(name) = ? AND phone = ?`,
-          [newUserId, name.toLowerCase(), phone],
+          [newUserId, normalizedName, normalizedPhone],
           function(err){
             if(err){
               console.error("Gagal update userId di subscription:", err.message);
