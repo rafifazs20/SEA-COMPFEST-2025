@@ -8,6 +8,7 @@ const { ensureAuthenticated, ensureAdmin } = require("./middleware/auth");
 const path = require("path");
 
 const app = express();
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server berjalan di http://localhost:${port}`);
@@ -115,10 +116,6 @@ app.get("/testimonials", (req, res) =>{
     if(err) return res.status(500).json({success: false});
     res.json(rows);
 });
-});
-
-app.listen(port, () =>{
-  console.log(`Server berjalan di http://localhost:${port}`);
 });
 
 app.get("/mysubscription", ensureAuthenticated, (req, res) => {
