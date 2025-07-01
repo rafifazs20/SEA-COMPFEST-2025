@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>User Dashboard - SEA Catering</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <nav class="navbar">
@@ -15,81 +15,89 @@
     </ul>
   </nav>
 
-  <section>
-    <h2>Langganan Aktif</h2>
-    <div id="subscription-details">Loading...</div>
+  <section class="dashboard">
+    <h2>Langganan Kamu</h2>
+    <div id="subscription-details" class="card loading">Loading data...</div>
   </section>
 
-  <section>
+  <section class="dashboard">
     <h3>Pause Subscription</h3>
-    <label>Mulai: <input type="date" id="pauseStart" /></label>
-    <label>Selesai: <input type="date" id="pauseEnd" /></label>
-    <button onclick="pauseSubscription()">Pause</button>
+    <div class="pause-controls">
+      <label>Mulai: <input type="date" id="pauseStart"/></label>
+      <label>Selesai: <input type="date" id="pauseEnd"/></label>
+      <button onclick="pauseSubscription()">Pause</button>
+    </div>
   </section>
 
-  <section>
+  <section class="dashboard">
     <h3>Cancel Subscription</h3>
-    <button onclick="cancelSubscription()">Cancel Langganan</button>
+    <button onclick="cancelSubscription()" style="background-color: crimson; color: white;">Batalkan Langganan</button>
   </section>
 
   <script>
-    async function fetchData() {
-      const res = await fetch("http://localhost:3000/mysubscription");
-      const data = await res.json();
-      if (data.success && data.subscription) {
-        const s = data.subscription;
-        document.getElementById("subscription-details").innerHTML = `
-          <ul>
-            <li><strong>Paket:</strong> ${s.plan}</li>
-            <li><strong>Meal:</strong> ${s.meals}</li>
-            <li><strong>Hari Kirim:</strong> ${s.days}</li>
-            <li><strong>Total:</strong> Rp ${s.totalPrice}</li>
-            <li><strong>Status:</strong> ${s.status || "Aktif"}</li>
-          </ul>
-        `;
-      } else {
-        document.getElementById("subscription-details").innerText = "Tidak ada langganan aktif.";
-      }
-    }
-
-    async function pauseSubscription() {
-      const start = document.getElementById("pauseStart").value;
-      const end = document.getElementById("pauseEnd").value;
-      if (!start || !end) return alert("Isi tanggal dengan lengkap");
-
-      const res = await fetch("http://localhost:3000/pause", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ start, end }),
+    async function fetchData(){
+      const res = await fetch("http://localhost:3000/mysubscription", {
+        credentials: "include"
       });
 
       const data = await res.json();
-      if (data.success) {
+      const container = document.getElementById("subscription-details");
+
+      if(data.success && data.subscription){
+        const s = data.subscription;
+        container.classList.remove("loading");
+        container.innerHTML = `
+          <div class="card">
+            <p><strong>Paket:</strong> ${s.plan}</p>
+            <p><strong>Meal:</strong> ${s.meals}</p>
+            <p><strong>Hari Kirim:</strong> ${s.days}</p>
+            <p><strong>Total:</strong> Rp ${s.totalPrice.toLocaleString()}</p>
+            <p><strong>Status:</strong> ${s.status || "Aktif"}</p>
+          </div>
+        `;
+      }else{
+        container.innerHTML = `<p style="color: red;">Tidak ada langganan aktif.</p>`;
+      }
+    }
+
+    async function pauseSubscription(){
+      const start = document.getElementById("pauseStart").value;
+      const end = document.getElementById("pauseEnd").value;
+      if(!start || !end) return alert("Isi tanggal dengan lengkap");
+
+      const res = await fetch("http://localhost:3000/pause",{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({start, end}),
+      });
+
+      const data = await res.json();
+      if(data.success){
         alert("Subscription berhasil di-pause!");
         fetchData();
-      } else {
+      }else{
         alert("Gagal pause.");
       }
     }
 
-    async function cancelSubscription() {
-      if (!confirm("Yakin ingin membatalkan langganan?")) return;
+    async function cancelSubscription(){
+      if(!confirm("Yakin ingin membatalkan langganan?")) return;
 
-      const res = await fetch("http://localhost:3000/cancel", {
+      const res = await fetch("http://localhost:3000/cancel",{
         method: "POST",
       });
 
       const data = await res.json();
-      if (data.success) {
+      if(data.success){
         alert("Langganan dibatalkan.");
         fetchData();
-      } else {
+      }else{
         alert("Gagal membatalkan langganan.");
       }
     }
 
-    function logout() {
-      fetch("http://localhost:3000/logout", { method: "POST" }).then(() =>
+    function logout(){
+      fetch("http://localhost:3000/logout", {method: "POST"}).then(() =>
         window.location.href = "login.html"
       );
     }

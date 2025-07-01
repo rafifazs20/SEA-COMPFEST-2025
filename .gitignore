@@ -1,23 +1,23 @@
-# Abaikan database di root folder
+#abaikan database di root folder
 /database.db
 
-# Abaikan semua database di subfolder mana pun (cadangan ganda)
+#abaikan semua database di subfolder mana pun (cadangan ganda)
 /database.db
 **/database.db
 
-# Abaikan file environment dan config sensitif (kalau ada)
+#abaikan file environment dan config sensitif (kalau ada)
 .env
 .env.local
 
-# Abaikan node_modules
+#abaikan node_modules
 node_modules/
 
-# Abaikan log dan cache
+#abaikan log dan cache
 *.log
 *.sqlite
 *.sqlite3
 *.bak
 .DS_Store
 
-# Vercel atau deployment
+#vercel atau deployment
 .vercel/

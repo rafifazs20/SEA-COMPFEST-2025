@@ -1,13 +1,19 @@
 --tabel subscription
-CREATE TABLE IF NOT EXISTS subscriptions(
+CREATE TABLE IF NOT EXISTS subscription(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  userId INTEGER,
   name TEXT,
   phone TEXT,
   plan TEXT,
   meals TEXT,
   days TEXT,
   allergies TEXT,
-  totalPrice INTEGER
+  totalPrice INTEGER,
+  status TEXT DEFAULT 'active',
+  pauseStart TEXT,
+  pauseEnd TEXT,
+  createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TEXT DEFAULT CURRENT_TIMESTAMP
 );
 
 --tabel testi
@@ -26,20 +32,3 @@ CREATE TABLE IF NOT EXISTS users(
   password TEXT NOT NULL,
   isAdmin INTEGER DEFAULT 0
 );
-
-ALTER TABLE subscriptions ADD COLUMN userId INTEGER;
-
-ALTER TABLE subscriptions ADD COLUMN status TEXT DEFAULT 'active';
-ALTER TABLE subscriptions ADD COLUMN pauseStart TEXT;
-ALTER TABLE subscriptions ADD COLUMN pauseEnd TEXT;
-ALTER TABLE subscriptions ADD COLUMN createdAt TEXT DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE subscriptions ADD COLUMN updatedAt TEXT DEFAULT CURRENT_TIMESTAMP;
-
-CREATE TRIGGER IF NOT EXISTS update_subscriptions_updatedAt
-AFTER UPDATE ON subscriptions
-FOR EACH ROW
-BEGIN
-  UPDATE subscriptions SET updatedAt = CURRENT_TIMESTAMP WHERE id = OLD.id;
-END;
-
-

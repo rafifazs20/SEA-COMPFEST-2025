@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard - SEA Catering</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <nav class="navbar">
@@ -15,39 +15,45 @@
     </ul>
   </nav>
 
-  <section>
+  <section class="dashboard">
     <h2>Statistik Langganan</h2>
-    <label for="daterange">Pilih rentang tanggal:</label>
-    <input type="date" id="start"> - <input type="date" id="end">
-    <button onclick="loadStats()">Tampilkan</button>
-    <div id="stats"></div>
+    <div class="filters">
+      <label for="start">Dari: <input type="date" id="start"></label>
+      <label for="end">Sampai: <input type="date" id="end"></label>
+      <button onclick="loadStats()">Tampilkan</button>
+    </div>
+    <div id="stats" class="card">Silakan pilih rentang tanggal terlebih dahulu.</div>
   </section>
 
   <script>
-    async function loadStats() {
+    async function loadStats(){
       const start = document.getElementById("start").value;
       const end = document.getElementById("end").value;
-      if (!start || !end) return alert("Isi tanggal dengan lengkap.");
+      if(!start || !end) return alert("Isi tanggal dengan lengkap.");
 
-      const res = await fetch(`http://localhost:3000/admin/stats?start=${start}&end=${end}`);
+      const res = await fetch(`http://localhost:3000/admin/stats?start=${start}&end=${end}`, {
+        credentials: "include"
+      });
+
       const data = await res.json();
 
-      if (data.success) {
-        document.getElementById("stats").innerHTML = `
+      const container = document.getElementById("stats");
+      if(data.success){
+        container.innerHTML = `
           <ul>
-            <li><strong>New Subscriptions:</strong> ${data.newSubscriptions}</li>
-            <li><strong>Monthly Recurring Revenue (MRR):</strong> Rp ${data.mrr.toLocaleString()}</li>
-            <li><strong>Reactivations:</strong> ${data.reactivations}</li>
-            <li><strong>Subscription Growth:</strong> ${data.totalActive}</li>
+            <li><strong>Langganan Baru:</strong> ${data.newSubscription}</li>
+            <li><strong>MRR:</strong> Rp ${data.mrr.toLocaleString()}</li>
+            <li><strong>Reaktivasi:</strong> ${data.reactivations}</li>
+            <li><strong>Total Aktif:</strong> ${data.totalActive}</li>
           </ul>
         `;
-      } else {
-        document.getElementById("stats").innerText = "Gagal mengambil data.";
+      }else{
+        container.innerHTML = `<p style="color: red;">Gagal mengambil data.</p>`;
       }
     }
 
-    function logout() {
-      fetch("http://localhost:3000/logout", { method: "POST" }).then(() =>
+    function logout(){
+      fetch("http://localhost:3000/logout", {method: "POST"}).then(() =>
         window.location.href = "login.html"
       );
     }

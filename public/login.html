@@ -39,11 +39,20 @@
         body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      if (data.success) {
+      if(data.success){
         alert("Login berhasil!");
-        window.location.href = "userDash.html";
-      } else {
-        alert(data.message || "Login gagal");
+        fetch("http://localhost:3000/me",{
+          method: "GET",
+          credentials: "include"
+        })
+        .then((res) => res.json())
+        .then((profile) =>{
+          if(profile.loggedIn && profile.user.isAdmin) {
+            window.location.href = "adminDash.html";
+          }else{
+            window.location.href = "userDash.html";
+          }
+        });
       }
     });
   </script>
